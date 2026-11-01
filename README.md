@@ -2,6 +2,8 @@
 
 Claimkit помогает собрать черновик обращения авиакомпании после сбоя рейса. [Открыть демо в браузере](https://shepilov56-glitch.github.io/claimkit-flight-claims-demo/). Установка и аккаунт не нужны; можно также скачать папку и открыть `index.html` локально.
 
+The app opens in English and can switch to Spanish, French, German, Portuguese, Russian, Simplified Chinese, or Hindi. The interface and generated letter templates are bundled locally; entered details are not sent to a translation service.
+
 ## Что работает
 
 - сбор сведений о рейсе, проблеме, перенаправлении, расходах и ответе авиакомпании;
