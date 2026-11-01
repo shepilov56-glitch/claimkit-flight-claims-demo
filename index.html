@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f5f2">
+  <title>Claimkit — подготовка обращения</title>
+  <style>
+    :root { --ink:#18221f; --muted:#68736e; --line:#dce2dd; --paper:#fff; --bg:#f4f5f2; --green:#185e49; --green2:#e4f1eb; --orange:#c76b36; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .shell { max-width:1120px; margin:0 auto; padding:28px 28px 72px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-bottom:54px; }
+    .brand { display:flex; gap:11px; align-items:center; font-weight:750; letter-spacing:-.04em; font-size:20px; }
+    .mark { width:34px; height:34px; border-radius:11px; background:var(--green); color:white; display:grid; place-items:center; font-size:17px; }
+    .topnote { font-size:12px; color:var(--muted); }
+    .hero { max-width:780px; margin:0 auto 36px; text-align:center; }
+    .eyebrow { color:var(--green); text-transform:uppercase; font-size:11px; font-weight:750; letter-spacing:.13em; }
+    h1 { font-size:clamp(34px,5vw,58px); line-height:1.04; letter-spacing:-.055em; margin:12px 0 14px; }
+    .hero p { color:var(--muted); max-width:620px; margin:0 auto; font-size:17px; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr); gap:18px; align-items:start; }
+    .card { background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 8px 30px #1b352508; }
+    .formcard { padding:26px; }
+    .result { padding:24px; position:sticky; top:18px; }
+    .cardhead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    h2 { margin:0; font-size:18px; letter-spacing:-.025em; }
+    .sub { color:var(--muted); font-size:13px; margin:5px 0 0; }
+    .pill { background:var(--green2); color:var(--green); border-radius:999px; padding:6px 10px; white-space:nowrap; font-size:11px; font-weight:700; }
+    .section { border-top:1px solid var(--line); padding-top:19px; margin-top:19px; }
+    .sectiontitle { font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.08em; margin:0 0 13px; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .dategrid { display:grid; grid-template-columns:.7fr 1.3fr 1fr; gap:8px; }
+    label { display:block; color:#39443f; font-size:12px; font-weight:650; margin-bottom:6px; }
+    input, select, textarea { width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 12px; color:var(--ink); background:#fff; font:inherit; font-size:14px; outline:none; transition:border .15s, box-shadow .15s; }
+    input:focus, select:focus, textarea:focus { border-color:#4b8c72; box-shadow:0 0 0 3px #185e4918; }
+    textarea { resize:vertical; min-height:86px; }
+    .field { margin-bottom:13px; }
+    .hint { color:var(--muted); font-size:11px; margin-top:5px; }
+    .actions { display:flex; gap:10px; margin-top:20px; }
+    button { border:0; border-radius:10px; padding:12px 15px; font:inherit; font-size:13px; font-weight:730; cursor:pointer; }
+    .primary { background:var(--green); color:white; flex:1; }
+    .primary:hover { background:#124c3b; }
+    .secondary { background:#eef1ee; color:var(--ink); }
+    .statusbox { border-radius:12px; padding:14px; background:#f5f7f5; margin:17px 0; }
+    .statusbox strong { display:block; font-size:14px; margin-bottom:4px; }
+    .statusbox p { margin:0; font-size:12px; color:var(--muted); }
+    .checklist { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+    .checklist li { display:flex; gap:10px; align-items:flex-start; font-size:13px; }
+    .check { flex:0 0 19px; width:19px; height:19px; border:1px solid #bfcac2; border-radius:6px; display:grid; place-items:center; font-size:11px; color:var(--green); }
+    .draftwrap { margin-top:19px; }
+    .draftlabel { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .draftlabel span { font-size:12px; font-weight:700; }
+    .draftlabel small { color:var(--muted); font-size:11px; }
+    #draft { min-height:180px; font-size:12px; line-height:1.6; background:#fbfcfb; }
+    .privacy { margin:18px auto 0; max-width:720px; color:var(--muted); text-align:center; font-size:11px; }
+    .privacy b { color:var(--green); }
+    .foot { border-top:1px solid var(--line); margin-top:38px; padding-top:16px; display:flex; justify-content:space-between; gap:18px; color:var(--muted); font-size:11px; }
+    .hidden { display:none; }
+    @media(max-width:800px) { .shell{padding:20px 16px 48px} header{margin-bottom:38px}.layout{grid-template-columns:1fr}.result{position:static}.hero p{font-size:15px} }
+    @media(max-width:480px) { .grid2{grid-template-columns:1fr}.formcard,.result{padding:19px}.topnote{display:none}.actions{flex-direction:column-reverse}.actions button{width:100%} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><span class="mark">c</span> claimkit</div>
+      <div class="topnote">Черновик обращения · демо-версия</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Разберитесь с поездкой</div>
+        <h1>Соберите обращение<br>за пару минут.</h1>
+        <p>Введите детали перелёта. Claimkit подготовит черновик письма и список документов, которые стоит приложить.</p>
+      </section>
+
+      <div class="layout">
+        <section class="card formcard">
+          <div class="cardhead">
+            <div><h2>Что произошло?</h2><p class="sub">Пока достаточно того, что помните. Можно дополнить позже.</p></div>
+            <span class="pill">1 из 1 · перелёт</span>
+          </div>
+          <form id="claimForm">
+            <div class="section" style="border-top:0;padding-top:0;margin-top:0">
+              <p class="sectiontitle">Рейс</p>
+              <div class="grid2">
+                <div class="field"><label for="airline">Авиакомпания</label><input id="airline" placeholder="Например, Example Air"></div>
+                <div class="field"><label for="flight">Номер рейса</label><input id="flight" placeholder="Например, EX123"></div>
+                <div class="field"><label for="from">Откуда</label><input id="from" placeholder="Город или аэропорт"></div>
+                <div class="field"><label for="to">Куда</label><input id="to" placeholder="Город или аэропорт"></div>
+                <div class="field"><label for="dateDay">Дата рейса</label><div class="dategrid"><input id="dateDay" type="number" min="1" max="31" step="1" placeholder="ДД" aria-label="День рейса"><select id="dateMonth" aria-label="Месяц рейса"><option value="">Месяц</option><option value="1">Январь</option><option value="2">Февраль</option><option value="3">Март</option><option value="4">Апрель</option><option value="5">Май</option><option value="6">Июнь</option><option value="7">Июль</option><option value="8">Август</option><option value="9">Сентябрь</option><option value="10">Октябрь</option><option value="11">Ноябрь</option><option value="12">Декабрь</option></select><input id="dateYear" type="number" min="1900" max="2100" step="1" value="2020" aria-label="Год рейса"></div><div class="hint">Год по умолчанию — 2020. Проверьте его. Если точный день неизвестен, укажите хотя бы месяц и год.</div></div>
+                <div class="field"><label for="booking">Код бронирования <span style="font-weight:400;color:#89928d">(необязательно)</span></label><input id="booking" placeholder="Можно добавить в письме самому"></div>
+              </div>
+            </div>
+            <div class="section">
+              <p class="sectiontitle">Задержка или отмена</p>
+              <div class="grid2">
+                <div class="field"><label for="problem">Ситуация</label><select id="problem"><option value="delay">Рейс задержали</option><option value="cancel">Рейс отменили</option><option value="denied">Не пустили на борт</option><option value="other">Другое</option></select></div>
+                <div class="field"><label for="regime">Где начался рейс</label><select id="regime"><option>Европейский союз</option><option>Великобритания</option><option>Другая страна</option><option>Не знаю</option></select></div>
+                <div class="field"><label for="planned">Плановое прибытие</label><input id="planned" type="time"></div>
+                <div class="field"><label for="actual">Фактическое прибытие или итог поездки</label><input id="actual" placeholder="Например: 21:40 или перенаправили, прибыл(а) 24 апреля"></div>
+                <div class="field"><label for="delayDuration">На сколько задержалось прибытие?</label><input id="delayDuration" placeholder="Например: более 3 часов, точное время неизвестно"></div>
+              </div>
+              <div class="field"><label for="reason">Что известно о причине сбоя?</label><textarea id="reason" placeholder="Например: по сообщению авиакомпании — техническая неисправность; либо причина пока неизвестна"></textarea><div class="hint">Укажите, откуда вам известна причина, если это важно. Если не знаете — оставьте поле пустым.</div></div>
+            </div>
+            <div class="section">
+              <p class="sectiontitle">Что было дальше?</p>
+              <div class="grid2">
+                <div class="field"><label for="reroute">Предложили другой рейс или маршрут?</label><select id="reroute"><option value="unknown">Не знаю / не помню</option><option value="none">Нет, не предложили</option><option value="same">Да, тем же перевозчиком</option><option value="other">Да, другим рейсом или перевозчиком</option><option value="refund">Предложили возврат денег</option></select></div>
+                <div class="field"><label for="airlineResponse">Ответ авиакомпании на обращение</label><select id="airlineResponse"><option value="unknown">Неизвестно / не указано</option><option value="not_sent">Ещё не обращался(ась)</option><option value="pending">Жду ответа</option><option value="partial">Часть расходов/требований возместили</option><option value="denied">Отказали</option><option value="paid">Выплатили / возместили</option></select></div>
+              </div>
+              <div class="field"><label for="expenses">Расходы из-за сбоя и подтверждения</label><textarea id="expenses" placeholder="Например: гостиница €120, еда €25; чеки есть / нет"></textarea><div class="hint">Укажите только то, что действительно потратили. Не вводите данные банковской карты.</div></div>
+              <div class="field"><label for="boardingConsent">Если вас не пустили на борт: уступали ли вы место добровольно?</label><select id="boardingConsent"><option value="na">Не относится к моей ситуации</option><option value="unknown">Не уверен(а)</option><option value="no">Нет, я хотел(а) лететь</option><option value="yes">Да, согласился(ась) уступить место</option></select></div>
+            </div>
+            <div class="section">
+              <p class="sectiontitle">Контакт для ответа</p>
+              <div class="grid2">
+                <div class="field"><label for="name">Имя</label><input id="name" placeholder="Как указано в бронировании"></div>
+                <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="name@example.com"></div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="secondary" type="reset">Очистить</button>
+              <button class="primary" type="submit">Подготовить черновик <span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="card result" aria-live="polite">
+          <div class="cardhead">
+            <div><h2>Ваш пакет обращения</h2><p class="sub">Обновится после заполнения формы.</p></div>
+            <span class="pill">Локально</span>
+          </div>
+          <div class="statusbox"><strong id="resultTitle">Начните с деталей рейса</strong><p id="resultText">Мы соберём черновик и подскажем, какие подтверждения могут пригодиться.</p></div>
+          <p class="sectiontitle">Полезно подготовить</p>
+          <ul class="checklist">
+            <li><span class="check">✓</span><span>Билет или подтверждение бронирования</span></li>
+            <li><span class="check">✓</span><span>Посадочный талон, если сохранился</span></li>
+            <li><span class="check">✓</span><span>Сообщения авиакомпании о сбое</span></li>
+            <li><span class="check">✓</span><span>Чеки за необходимые расходы из-за задержки</span></li>
+          </ul>
+          <div class="draftwrap">
+            <div class="draftlabel"><span>Черновик письма</span><small>Можно отредактировать</small></div>
+            <textarea id="draft" placeholder="Здесь появится текст обращения…" aria-label="Черновик письма"></textarea>
+            <div class="actions"><button class="secondary" id="copyBtn" type="button">Скопировать текст</button><button class="primary" id="downloadBtn" type="button">Скачать .txt</button></div>
+          </div>
+        </aside>
+      </div>
+      <p class="privacy"><b>Приватность демо:</b> сведения не отправляются на сервер и не сохраняются. Это помощник для подготовки обращения, а не решение о праве на выплату. Правила зависят от маршрута и обстоятельств — проверьте их у компетентного органа или специалиста.</p>
+    </main>
+    <footer class="foot"><span>claimkit · ранний прототип</span><span>Никакие обращения не отправляются автоматически.</span></footer>
+  </div>
+  <script>
+    const form = document.getElementById('claimForm');
+    const get = id => document.getElementById(id).value.trim();
+    const labels = {delay:'задержкой рейса',cancel:'отменой рейса',denied:'отказом в посадке',other:'иной проблемой с перелётом'};
+    const formatDate = () => {
+      const day = Number(get('dateDay'));
+      const month = Number(get('dateMonth'));
+      const year = Number(get('dateYear'));
+      if (!year) return '[дата рейса]';
+      if (year < 1900 || year > 2100) return '[проверьте год рейса]';
+      if (!month && !day) return '[дата рейса]';
+      if (month && !day) {
+        const monthName = new Intl.DateTimeFormat('ru-RU',{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,1)));
+        return `${monthName} ${year} г. (день неизвестен)`;
+      }
+      if (!month || !day) return '[укажите месяц и день рейса]';
+      const date = new Date(Date.UTC(year,month-1,day));
+      if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month-1 || date.getUTCDate() !== day) return '[проверьте дату рейса]';
+      const dayMonth = new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',timeZone:'UTC'}).format(date);
+      return `${dayMonth} ${year} г.`;
+    };
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const airline = get('airline') || '[название авиакомпании]';
+      const flight = get('flight') || '[номер рейса]';
+      const from = get('from') || '[аэропорт отправления]';
+      const to = get('to') || '[аэропорт назначения]';
+      const date = formatDate();
+      const issue = labels[get('problem')];
+      const name = get('name') || '[имя пассажира]';
+      const email = get('email') || '[email для ответа]';
+      const booking = get('booking');
+      const planned = get('planned') || '[плановое время]';
+      const actual = get('actual') || '[фактическое время / отмена]';
+      const delayDuration = get('delayDuration') || '[продолжительность задержки не указана]';
+      const delayLine = get('problem') === 'delay' ? `Опоздание при прибытии: ${delayDuration}\n` : '';
+      const reason = get('reason') || 'Причину нарушения расписания мне не сообщили.';
+      const rerouteLabels = {unknown:'не помню / не знаю',none:'не предлагали',same:'предложили другой рейс тем же перевозчиком',other:'предложили другой рейс или перевозчика',refund:'предложили возврат денег'};
+      const responseLabels = {unknown:'неизвестно / не указано',not_sent:'ещё не обращался(ась)',pending:'ожидаю ответ',partial:'часть требований уже удовлетворили',denied:'получил(а) отказ',paid:'получил(а) выплату или возмещение'};
+      const reroute = rerouteLabels[get('reroute')] || 'не указано';
+      const airlineResponse = responseLabels[get('airlineResponse')] || 'не указано';
+      const expenses = get('expenses') || 'Не указаны.';
+      const boardingConsent = get('boardingConsent');
+      const boardingText = boardingConsent === 'no' ? 'Я не соглашался(ась) добровольно уступить место.' : boardingConsent === 'yes' ? 'Я согласился(ась) добровольно уступить место.' : boardingConsent === 'unknown' ? 'Не уверен(а), было ли оформлено моё добровольное согласие уступить место.' : '';
+      const route = `${from} — ${to}`;
+      const text = `Тема: Запрос о компенсации и расходах — рейс ${flight}, ${date}\n\nЗдравствуйте!\n\nПрошу рассмотреть моё обращение в связи с ${issue}.\n\nАвиакомпания: ${airline}\nРейс: ${flight}\nМаршрут: ${route}\nДата: ${date}\nПлановое прибытие: ${planned}\nФактическое прибытие / статус: ${actual}\n${delayLine}${booking ? `Код бронирования: ${booking}\n` : ''}\nСведения о причине сбоя: ${reason}\nПредложенное перенаправление или возврат: ${reroute}\nРасходы и подтверждения: ${expenses}\nСтатус ответа перевозчика: ${airlineResponse}\n${boardingText ? `Добровольный отказ от места: ${boardingText}\n` : ''}\nПрошу сообщить, какие права и варианты возмещения применимы к моей ситуации, и рассмотреть выплату компенсации и/или возмещение подтверждённых расходов, если они предусмотрены применимыми правилами. Если в выплате будет отказано, прошу указать конкретную причину и порядок дальнейшего обжалования.\n\nГотов(а) предоставить подтверждение бронирования, посадочный талон и чеки расходов.\n\nИмя: ${name}\nEmail: ${email}\n\nС уважением,\n${name}`;
+      document.getElementById('draft').value = text;
+      document.getElementById('resultTitle').textContent = 'Черновик подготовлен';
+      document.getElementById('resultText').textContent = 'Проверьте все данные и измените формулировки, если нужно. Программа пока ничего не отправляет.';
+      document.querySelector('.result').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    form.addEventListener('reset', () => setTimeout(() => {
+      document.getElementById('draft').value='';
+      document.getElementById('resultTitle').textContent='Начните с деталей рейса';
+      document.getElementById('resultText').textContent='Мы соберём черновик и подскажем, какие подтверждения могут пригодиться.';
+    },0));
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const draft = document.getElementById('draft');
+      if (!draft.value) return;
+      try { await navigator.clipboard.writeText(draft.value); document.getElementById('copyBtn').textContent='Скопировано'; }
+      catch { draft.select(); document.execCommand('copy'); document.getElementById('copyBtn').textContent='Скопировано'; }
+    });
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const draft = document.getElementById('draft');
+      if (!draft.value) return;
+      const blob = new Blob([draft.value],{type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href=url; link.download='claimkit-obraschenie.txt'; link.style.display='none';
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url),1000);
+    });
+  </script>
+</body>
+</html>
+
